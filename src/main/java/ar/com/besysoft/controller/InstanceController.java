@@ -22,6 +22,7 @@ public class InstanceController {
         this.headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(
             value = "/instance",
             method = RequestMethod.GET,
@@ -38,7 +39,7 @@ public class InstanceController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-
+    @CrossOrigin(origins = "*")
     @RequestMapping(
             value = "/instance/{id}",
             method = RequestMethod.GET,

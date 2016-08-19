@@ -23,6 +23,7 @@ public class PapiService {
         ParticipantBean participant = null;
         try {
             participant = connection.papi.participantCurrent();
+            System.out.println(true);
         } catch (OperationException_Exception e) {
             e.printStackTrace();
         }

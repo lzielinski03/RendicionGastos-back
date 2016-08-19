@@ -16,6 +16,7 @@ import javax.xml.ws.soap.SOAPFaultException;
  * Created by lzielinski on 16/08/2016.
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class AuthController {
 
@@ -33,6 +34,7 @@ public class AuthController {
             headers = "content-type=application/json"
     )
     public ResponseEntity<String> login(@RequestBody User user) {
+        System.out.println(user.getUsername() + " " + user.getPassword());
         try {
             Object participant = new PapiService(user.getUsername(), user.getPassword()).getCurrentParticipant();
 
