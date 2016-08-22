@@ -58,7 +58,20 @@ public class PapiService {
         String result = "";
         try {
             String i_Info = connection.papi.instanceGetVariable(StringId.decode(instanceId), "i_Info");
-            result = Json.StringFormat(i_Info.substring(1, i_Info.length()-1), ",", "=");
+            System.out.println(i_Info);
+            result = i_Info;
+        } catch (OperationException_Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String getMotivoRechazo(String instanceId) {
+        String result = "";
+        try {
+            String i_Params = connection.papi.instanceGetVariable(StringId.decode(instanceId), "i_Params");
+            System.out.println(i_Params);
+            result = i_Params;
         } catch (OperationException_Exception e) {
             e.printStackTrace();
         }
@@ -83,13 +96,13 @@ public class PapiService {
 
             ArgumentsBean.Arguments arg = new ArgumentsBean.Arguments();
             ArgumentsBean.Arguments.Entry entry = new ArgumentsBean.Arguments.Entry();
-            entry.setKey("a_ExternalResult");
+            entry.setKey("a_Data");
             entry.setValue(isApprove);
             arg.getEntry().add(entry);
 
             bean.setArguments(arg);
 
-            connection.papi.processSendNotification(instance.getId(), "PapiBridgeListener", "PapiBridgeListenerIn", bean);
+            connection.papi.processSendNotification(instance.getId(), "papiBridge", "papiBridgeIn", bean);
         } catch (OperationException_Exception e) {
             e.printStackTrace();
         }
@@ -169,4 +182,5 @@ public class PapiService {
             e.printStackTrace();
         }
     }
+
 }

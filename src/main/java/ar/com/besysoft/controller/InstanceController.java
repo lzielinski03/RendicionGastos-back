@@ -61,4 +61,46 @@ public class InstanceController {
         System.out.println(response);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(
+            value = "/instance/{id}/motivo-rechazo",
+            method = RequestMethod.GET,
+            consumes= MediaType.APPLICATION_JSON_VALUE,
+            headers = "content-type=application/json"
+    )
+    public ResponseEntity getMotivoRechazo(
+            @RequestHeader String authorization,
+            @PathVariable("id") String id) {
+        if (authorization.length() == 0) return new ResponseEntity<>("{\"sucess\": \"false\"}", HttpStatus.FORBIDDEN);
+
+        User user = new Token(authorization).getUser();
+        headers.set("username", user.getUsername());
+        headers.set("password", user.getPassword());
+
+        String response = new PapiService(user.getUsername(), user.getPassword()).getMotivoRechazo(id);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(
+            value = "/instance/{id}/evaluate",
+            method = RequestMethod.POST,
+            consumes= MediaType.APPLICATION_JSON_VALUE,
+            headers = "content-type=application/json"
+    )
+    public ResponseEntity evaluate(
+            @RequestHeader String authorization,
+            @PathVariable("id") String id,
+            @RequestBody String isApproved) {
+        if (authorization.length() == 0) return new ResponseEntity<>("{\"sucess\": \"false\"}", HttpStatus.FORBIDDEN);
+
+        User user = new Token(authorization).getUser();
+        headers.set("username", user.getUsername());
+        headers.set("password", user.getPassword());
+
+        String response = new PapiService(user.getUsername(), user.getPassword()).evaluateInstance(id, isApproved);
+        System.out.println(response);
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }
