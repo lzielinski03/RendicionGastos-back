@@ -92,14 +92,14 @@ public class InstanceController {
     public ResponseEntity evaluate(
             @RequestHeader String authorization,
             @PathVariable("id") String id,
-            @RequestBody String isApproved) {
+            @RequestBody String data) {
         if (authorization.length() == 0) return new ResponseEntity<>("{\"sucess\": \"false\"}", HttpStatus.FORBIDDEN);
 
         User user = new Token(authorization).getUser();
         headers.set("username", user.getUsername());
         headers.set("password", user.getPassword());
 
-        String response = new PapiService(user.getUsername(), user.getPassword()).evaluateInstance(id, isApproved);
+        String response = new PapiService(user.getUsername(), user.getPassword()).evaluateInstance(id, data);
         System.out.println(response);
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
